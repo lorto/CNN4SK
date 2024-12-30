@@ -6,7 +6,7 @@
 
 1. [Introduction](#introduction)  
 2. [Project Structure](#project-structure)
-3. [Physics Overview](#physics_overview)
+3. [Physics Overview](#physics-overview)
 4. [Scripts Overview](#scripts-overview)  
 5. [Usage Instructions](#usage-instructions)
 6. [Conclusions](#conclusions)
