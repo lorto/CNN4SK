@@ -28,13 +28,13 @@ This repository contains the following content:
 
 ```text
 CNN4SK/ 
-  ├── generate.py
-  ├── train.py
-  ├── evaluate.py
-  ├── event_display.zip
-  ├── event_display_evaluate.zip
-  ├── README.md
-  └── pictures/
+   ├── generate.py
+   ├── train.py
+   ├── evaluate.py
+   ├── event_display.zip
+   ├── event_display_evaluate.zip
+   ├── README.md
+   └── pictures/
 ```
 
 - **`generate.py`**  
@@ -164,6 +164,7 @@ mu_noise = 1 # Standard deviation of gaussian noise in mu-like events
 def noise_func(sigma_noise, step):
     return sigma_noise * (0.5 + 0.5 * step / num_steps)
 ```
+
 If needed, birth and death distance generation limits can be adjusted.
 
 ```python
@@ -174,12 +175,14 @@ death_distance_to_plane = 0 if type == 'PC' else np.random.uniform(0.33 * birth_
 ```
 
 2. Run the script in a terminal:
-```bash
-python generate_events.py
-```
-3. Check that a new directory (e.g., `event_display_new`) has been created with four subfolders: `FCe`, `FCmu`, `PCe` and `PCmu`.  
 
-The script will generate a console output such as the following (shortened):
+```bash
+python3 generate.py
+```
+
+3. Check that a new directory `event_display/` has been created with four subfolders: `FCe`, `FCmu`, `PCe` and `PCmu`.  
+
+The script shows its progress through a console output such as the following (shortened):
 
 ```text
 Event discarded.
@@ -194,6 +197,28 @@ Event discarded.
 Event image saved as '000004_PCe.png'.
 [...]
 Event image saved as '000999_FCe.png'.
+```
+
+`event_display/` has the following folder scheme:
+
+```text
+event_display/
+   ├── FCe/
+   │   ├── 000003_FCe.png
+   │   ├── 000028_FCe.png
+   │   └── ...
+   ├── FCmu/
+   │   ├── 000001_FCmu.png
+   │   ├── 000002_FCmu.png
+   │   └── ...
+   ├── PCe/
+   │   ├── 000000_PCe.png
+   │   ├── 000004_PCe.png
+   │   └── ...
+   └── PCmu/
+       ├── 000007_PCmu.png
+       ├── 000014_PCmu.png
+       └── ...
 ```
 
 ### Train the Model
