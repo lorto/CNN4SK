@@ -143,7 +143,7 @@ The first or first two steps can be skipped for a quick demonstration of the pro
 
 ### Generate the Dataset
 
-1. *(Optional)* If needed, modify parameters in `generate_events.py` (e.g., number of images, image size, noise levels). The function responsible for noise scaling can also be customized.
+1. *(Optional)* If needed, modify parameters and settings in `generate.py` (e.g., number of images, image size, noise levels, etc.). The function responsible for noise scaling can also be customized.
 
 ```python
 # General settings
@@ -165,7 +165,7 @@ def noise_func(sigma_noise, step):
     return sigma_noise * (0.5 + 0.5 * step / num_steps)
 ```
 
-If needed, birth and death distance generation limits can be adjusted.
+If needed, birth and death distance generation limits can be adjusted, too.
 
 ```python
 # Generate random distances where the Cherenkov emission starts and ends
@@ -231,8 +231,8 @@ If the previous step has been skipped, download and decompress `event_display.zi
 python3 train.py
 ```
 
-3. A ResNet50-based classifier will be trained.  
-4. A model file `best_model.keras` will be saved.
+2. A ResNet50-based classifier will be trained.  
+3. A model file `best_model.keras` will be saved.
 
 During execution the script will produce a textual and graphical output such as the following (shortened):
 
@@ -375,23 +375,35 @@ Epoch 25/25
 
 ### Evaluate the Model
 
-Link best_model.keras: 
-
+If the training has not been performed the fine-tuned model `best_model.keras` can be downloaded from the following (shortened) Google Drive public link: 
 
 <https://tinyurl.com/2wju8t33>
 
+1. Create an evaluation dataset: in `generator.py` replace `output_dir = "event_display"` with `output_dir = "event_display_evaluate"`, save and run `generator.py` then move the content of the generated subfolders directly into `event_display_evaluate/`. Alternatively, download and decompress `event_display_evaluate.zip`. The name and scheme of the evaluation directory must be such as:
 
-1. Once training is complete, run:
-
-```bash
-python evaluate_model.py
+```text
+event_display_evaluate/ 
+   ├── 000000_FCe.png
+   ├── 000001_FCe.png
+   ├── 000002_FCe.png
+   ├── 000003_FCe.png
+   ├── 000004_FCe.png
+   ├── 000005_FCe.png
+   ├── 000006_FCe.png
+   ├── 000007_FCe.png
+   ├── 000008_FCe.png
+   ├── 000009_FCe.png    
+   └── ...
 ```
 
-2. Ensure that **evaluate_model.py** references the correct path for the test set (could be within the same directory if a validation split is used, or a separate folder for a truly unseen test).  
-3. The script outputs confusion matrices, classification reports, and plots ROC curves (or one-vs-rest curves for multi-class scenarios).  
-4. Check the console output and any generated figures to interpret the classifier’s performance.
+2. Run:
 
-During execution the script will produce a text and graphical output such as the following:
+```bash
+python3 evaluate.py
+```
+
+3. The script outputs confusion matrices, classification reports, and plots ROC curves ().  
+4. Check the console output and any generated figures to interpret the classifier’s performance (see shortened example below).
 
 ```text
 2024-12-29 22:46:25.342048: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
@@ -431,8 +443,8 @@ F1 Score (Macro): 0.9635
 F1 Score (Weighted): 0.9659
 Confusion Matrix, without normalization
 Normalized Confusion Matrix
-lorenzo@MacBook Pro sc_GitHub % 
 ```
+
 ![](pictures/evaluate1.png)
 ![](pictures/evaluate2.png)
 ![](pictures/evaluate3.png)
