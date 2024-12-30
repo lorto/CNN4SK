@@ -9,7 +9,8 @@
 3. [Physics Overview](#physics_overview)
 4. [Scripts Overview](#scripts-overview)  
 5. [Usage Instructions](#usage-instructions)
-6. [Key Libraries and Requirements](#key-libraries-and-requirements)
+6. [Conclusions](#conclusions)
+7. [Key Libraries and Requirements](#key-libraries-and-requirements)
 
 ## Introduction
 
@@ -39,7 +40,8 @@ CNN4SK/
 │	├── FCmu/ # Fully Contained, muon-like events 
 │ 	├── PCe/ # Partially Contained, electron-like events 
 │ 	└── PCmu/ # Partially Contained, muon-like events
-└── README.md # Current documentation file
+├── README.md # Current documentation file
+└── pictures/
 ```
 
 - **generate.py**  
@@ -95,7 +97,7 @@ Link best_model.keras:
 <https://tinyurl.com/2wju8t33>
 
 
-### Event generator ```generate.py```
+### Event generator `generate.py`
 
 **Role**: Synthetic Data Generation
 
@@ -106,7 +108,7 @@ Link best_model.keras:
 5. **Field-of-View Checks** If the generated ellipse lies outside the detector’s 2D window, the event is discarded. In practical terms, this step ensures that the script only retains images where the Cherenkov pattern lies inside the detector plane before the application of noise.
 6. **Output and Labeling** Valid events are saved as 2D black and white images. The file naming encodes: topology (e.g., “FC” or “PC”), particle type (e.g., “e” or “mu”) and a sequential event index. Images are saved in subfolders named “FCe”, “FCmu”, “PCe” and “PCmu”, reflecting both the topology and the particle ID.
 
-### train_model.py
+### Training script `train.py`
 
 **Role**: Model Training  
 1. **Data Loading**: Reads images from the event_display_new/ directory using a Keras ImageDataGenerator for data augmentation.  
@@ -118,7 +120,7 @@ Link best_model.keras:
    - Optimizes the network via Adam or another suitable optimizer.  
    - Tracks validation performance; saves the best model weights to best_model.keras (if configured).  
 
-### evaluate_model.py
+### Evaluation script `evaluate.py`
 
 **Role**: Model Evaluation  
 1. **Model Loading**: Loads best_model.keras or the specified checkpoint.  
@@ -142,7 +144,7 @@ python generate_events.py
 
 The script will generate a console output such as the following (shortened):
 
-```bash
+```text
 Event discarded.
 Event discarded.
 Event image saved as '000000_PCe.png'.
@@ -171,7 +173,7 @@ python train_model.py
 
 During execution the script will produce a text and graphical output such as the following:
 
-```bash
+```text
 2024-12-29 18:31:15.348303: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 TensorFlow version: 2.16.2
@@ -186,7 +188,7 @@ Image counts per class:
 ![](pictures/train1.png)
 
 
-```bash
+```text
 Found 703 images belonging to 4 classes.
 Found 297 images belonging to 4 classes.
 Class indices: {'FCe': 0, 'FCmu': 1, 'PCe': 2, 'PCmu': 3}
@@ -224,7 +226,7 @@ Model: "functional"
 │ conv2_block1_1_relu │ (None, 56, 56,    │          0 │ conv2_block1_1_b… │
 │ (Activation)        │ 64)               │            │                   │
 ├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-| [...]               │ [...]             | [...]      | [...]             |
+│ [...]               │ [...]             │ [...]      │ [...]             │
 ├─────────────────────┼───────────────────┼────────────┼───────────────────┤
 │ conv5_block3_2_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block3_2_c… │
 │ (BatchNormalizatio… │                   │            │                   │
@@ -322,8 +324,7 @@ python evaluate_model.py
 
 During execution the script will produce a text and graphical output such as the following:
 
-```bash
-
+```text
 2024-12-29 22:46:25.342048: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 1/1 ━━━━━━━━━━━━━━━━━━━━ 2s 2s/step
@@ -369,6 +370,8 @@ lorenzo@MacBook Pro sc_GitHub %
 ![](pictures/evaluate4.png)
 ![](pictures/evaluate5.png)
 ![](pictures/evaluate6.png)
+
+## Conclusions
 
 ## Key Libraries and Requirements
 
