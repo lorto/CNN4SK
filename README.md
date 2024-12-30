@@ -102,12 +102,12 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 
 1. **Parameter Generation** Randomly selects particle ID (e.g., “e” or “mu”), topology (e.g., “FC” or “PC”), azimuthal angle φ, polar angles θ, birth and death distances for the charged leptons with respect to the plane.
 2. **Incremental Ellipse Drawing** 
-	- A sequence of ellipses is generated at discrete intervals (num_steps) between the outer and inner distances, scaled and oriented according to the Cherenkov angle, θ and φ. 
+	- A sequence of ellipses is generated at discrete intervals (`num_steps`) between the outer and inner distances, scaled and oriented according to the Cherenkov angle, θ and φ. 
 	- The script calculates the major and minor semi-axes at each step and renders an ellipse on a 2D grid.
 3. **Noise and Multiple Coulomb Scattering** 
 	- A Gaussian random displacement (larger for e-like events) is applied to each point of the ellipse. 
 	- Noise growth over the trajectory is implemented to mimic increased scattering towards the end of the path.
-4. **Field-of-View Checks** If the generated ellipse lies outside the detector’s 2D window, the event is discarded.
+4. **Field-of-View Checks** If the generated ellipse is not fully inside the detector’s 2D window, the event is discarded.
 5. **Output and Labeling** 
 	- Valid events are saved as 2D black and white images. 
 	- The file naming and folder scheme encodes the topology and particle ID.
