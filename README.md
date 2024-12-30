@@ -96,12 +96,6 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 
 ## Scripts Overview
 
-Link best_model.keras: 
-
-
-<https://tinyurl.com/2wju8t33>
-
-
 ### Event generator `generate.py`
 
 **Role**: Synthetic Data Generation
@@ -122,7 +116,7 @@ Link best_model.keras:
 
 **Role**: Model Training
 
-1. **Data Loading**: Reads images from the event_display_new/ directory using a Keras ImageDataGenerator for data augmentation.  
+1. **Data Loading**: Reads images from the `event_display/` directory using a Keras ImageDataGenerator for data augmentation.  
 2. **Model Construction**:  
    - Loads a ResNet50 (pre-trained on ImageNet).  
    - Freezes the base layers.  
@@ -324,6 +318,12 @@ Epoch 25/25
 
 ### Evaluate the Model
 
+Link best_model.keras: 
+
+
+<https://tinyurl.com/2wju8t33>
+
+
 1. Once training is complete, run:
 
 ```bash
@@ -387,11 +387,11 @@ lorenzo@MacBook Pro sc_GitHub %
 
 ## Key Libraries and Requirements
 
-- **Python 3.7+** (recommended)  
-- **tensorflow** or **keras** (for deep learning functionality)  
-- **numpy** (array operations and numerical computations)  
-- **matplotlib** (visualizations for confusion matrix, ROC curves)  
-- **Pillow (PIL)** (image reading/writing)  
+- **Python 3.7+** 
+- **TensorFlow (Keras)** (for machine learning functionality)  
+- **NumPy** (array operations and numerical computations)  
+- **Matplotlib** (visualizations for confusion matrix, ROC curves)  
+- **Pillow (PIL)** (image writing)  
 - **scikit-learn** (classification metrics, confusion matrix, ROC utilities)
 
 Installation example (using pip):
