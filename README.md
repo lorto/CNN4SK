@@ -110,18 +110,18 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 4. **Field-of-View Checks** If the generated ellipse lies outside the detector’s 2D window, the event is discarded.
 5. **Output and Labeling** 
 	- Valid events are saved as 2D black and white images. 
-	- The file naming and folder scheme encodes the topology (e.g., “FC” or “PC”) and particle ID (e.g., “e” or “mu”).
+	- The file naming and folder scheme encodes the topology and particle ID.
 
 ### Training script `train.py`
 
 **Role**: Model Training
 
-1. **Data Loading**: Reads images from the `event_display/` directory using a Keras ImageDataGenerator for data augmentation.  
-2. **Model Construction**:  
+1. **Data Loading** Reads images from the `event_display/` directory using a Keras ImageDataGenerator for data augmentation.  
+2. **Model Construction**  
    - Loads a ResNet50 (pre-trained on ImageNet).  
    - Freezes the base layers.  
    - Adds a GlobalAveragePooling2D layer plus dense layers for final classification into four classes (FCe, FCmu, PCe, PCmu) or two classes depending on the classification approach.  
-3. **Training Loop**:  
+3. **Training Loop**  
    - Optimizes the network via Adam or another suitable optimizer.  
    - Tracks validation performance; saves the best model weights to best_model.keras (if configured).  
 
@@ -129,13 +129,15 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 
 **Role**: Model Evaluation  
 
-1. **Model Loading**: Loads best_model.keras or the specified checkpoint.  
-2. **Inference**: Runs predictions on a test dataset or a directory of images.  
-3. **Performance Metrics**:  
+1. **Model and Dataset Loading** 
+   - Loads `best_model.keras`.
+   - Loads and preprocesses images from `event_display_evaluate/`.
+2. **Inference** Runs predictions on test dataset `event_display_evaluate/`.  
+3. **Performance Metrics**  
    - Confusion Matrix (to visualize class-specific errors).  
    - Classification Report (precision, recall, F1).  
-   - ROC Curves (one-vs-rest or one-vs-one).  
-4. **Visualization**: Plots relevant figures (e.g., confusion matrix, normalized confusion matrix, per-class ROC curves).
+   - ROC Curves ("class-vs-class" approach).  
+4. **Visualization** Plots relevant figures (e.g., confusion matrix, normalized confusion matrix, selected ROC curves).
 
 ## Usage Instructions
 
