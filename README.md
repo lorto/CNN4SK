@@ -28,13 +28,13 @@ This repository contains the following content:
 
 ```text
 CNN4SK/ 
-	├── generate.py
-	├── train.py
-	├── evaluate.py
-	├── event_display.zip
-	├── event_display_evaluate.zip
-	├── README.md
-	└── pictures/
+  ├── generate.py
+  ├── train.py
+  ├── evaluate.py
+  ├── event_display.zip
+  ├── event_display_evaluate.zip
+  ├── README.md
+  └── pictures/
 ```
 
 - **generate.py**  
