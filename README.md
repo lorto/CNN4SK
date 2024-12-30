@@ -385,6 +385,13 @@ lorenzo@MacBook Pro sc_GitHub %
 
 ## Conclusions
 
+1. Classification metrics, confusion matrices and ROC curves indicate a very good performance of the fine-tuned model for this task.
+2. Some degree of confusion is visible between `FCe` and `PCe`events.
+3. The ROC curve for this specific pair of events also reflects such behavior.
+4. The reason for this might reside in the dataset generator: fully contained electron events with small internal radii might be entirely filled up by the noise.
+5. If this is the case, increasing the training dataset or unfreezing some layers of ResNet50 might prove ineffective for increasing performance.
+6. The 33% minimum ratio between death and birth distances could be raised to prevent this effect. However, the default configuration allows the user to explore *fringe* cases with a very small pixel-like central hole.
+
 ## Key Libraries and Requirements
 
 - **Python 3.7+** 
