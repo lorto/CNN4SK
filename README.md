@@ -62,21 +62,21 @@ CNN4SK/
 
 ### Premise :warning:
 
-This project has been inspired by the Super-Kamiokande (SK) neutrino observatory in Japan.
-However, the generator script (generate.py) does not perform a proper, full physical simulation of SK events. Instead, it will generate images with some features that resemble real SK event displays.
+This project has been *inspired* by the Super-Kamiokande (SK) neutrino observatory in Japan.
+However, the generator script `generate.py` **does not perform a proper, full physical simulation of SK events**. Instead, it will generate images with some features that resemble real SK event displays.
 
-The aim of this project is to give a very preliminary answer to the question:
+The aim of this project is to give a very simplified, preliminary answer to the question:
 
->*Could CNN architectures such as ResNet50 be used in SK-like neutrino observatories to classify e-like, μ-like, fully contained (FC) and partially contained (PC) events?*
+>*Can CNN architectures such as ResNet50 be used in SK-like neutrino observatories to classify e-like, μ-like, fully contained (FC) and partially contained (PC) events?*
 
 ### FC vs PC events
 
-- **Fully contained (FC)** events occur when the charged particle from the neutrino interaction remains entirely within the detector. The Cherenkov light emitted by the charged particle forms a cone, and its projection on the detector walls creates a ring-like shape.
-- In contrast, **partially contained (PC)** events happen when the charged particle exits the detector. In this case, the Cherenkov light produces a filled elliptical shape.
+- **Fully Contained (FC)** events occur when the charged particle from the neutrino interaction remains entirely within the detector. The Cherenkov light emitted by the charged particle forms a cone and its projection on the detector walls creates a ring-like shape.
+- In contrast, **Partially Contained (PC)** events happen when the charged particle exits the detector. In this case, the Cherenkov light produces a filled elliptical shape.
 
 ![](pictures/info1.png)
 
-### e and μ events
+### e vs μ events
 
 In Super-Kamiokande, e-like and μ-like events differ due to the distinct behaviors of electrons and muons when they travel in a medium and emit Cherenkov light.
 
@@ -91,7 +91,7 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 
 - In actual experiments, the detector geometry can be much more complex, for example a large cylindrical tank lined with thousands of photomultiplier tubes. By contrast, this dataset generator models only a single two-dimensional plane to represent light detection, rather than a curved surface. This script treats light detection as a uniform pixel grid.
 - The generator assumes an unattenuated cone emission, without accounting for wavelength-dependent attenuation or other realistic optical effects. It also does not address photostatistics or dark noise, both of which can influence the actual number of photoelectrons recorded by each PMT.
-- This dataset generation does not physically model the full multiple scattering process that charged particles undergo in water. Instead, it applies a simple Gaussian noise component to each ellipse point, which increases with the progression of the particle’s motion. This approximation emulates a broader Cherenkov ring edge, but does not replicate the detailed scattering interactions that would occur inside a real detector volume.
+- This dataset generation does not physically model the full multiple scattering process that charged particles undergo in water. Instead, it applies a simple Gaussian noise component to each ellipse point, which increases with the progression of the particle’s motion. This approximation emulates a *broader* Cherenkov ring edge, but does not replicate the detailed scattering interactions that would occur inside a real detector volume.
 - In the actual detector, geometric and fiducial volume cuts are applied. These have not been taken into consideration in the generator script.
 
 ## Scripts Overview
