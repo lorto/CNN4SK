@@ -6,21 +6,15 @@
 
 1. [Introduction](#introduction)  
 2. [Project Structure](#project-structure)
-3. [Scripts Overview](#scripts-overview)  
-   - [generate_events.py](#generate_eventspy)  
-   - [train_model.py](#train_modelpy)  
-   - [evaluate_model.py](#evaluate_modelpy)  
-4. [Usage Instructions](#usage-instructions)  
-   - [Generate the Dataset](#generate-the-dataset)  
-   - [Train the Model](#train-the-model)  
-   - [Evaluate the Model](#evaluate-the-model)
-5. [Key Libraries and Requirements](#key-libraries-and-requirements)
+3. [Physics Overview](#physics_overview)
+4. [Scripts Overview](#scripts-overview)  
+5. [Usage Instructions](#usage-instructions)
+6. [Key Libraries and Requirements](#key-libraries-and-requirements)
 
 ## Introduction
 
-This repository contains an end-to-end workflow for simulating Cherenkov events in a water-based detector (inspired by Super-Kamiokande) and classifying these events using a Deep Learning model (ResNet50). The project is intended to illustrate how synthetic data generation, training, and evaluation can be integrated in a physics-inspired context.
-
-For physics details please refer to physics(intro).pdf.
+Software and Computing for Nuclear and Subnuclear Physics (UniBO)
+This repository contains an end-to-end workflow for simulating Cherenkov events in a water-based detector (inspired by Super-Kamiokande) and classifying these events using a Deep Learning model (ResNet50).
 
 This project:
 
@@ -30,13 +24,13 @@ This project:
 
 ## Project Structure
 
-A possible directory structure is shown below:
+This repository contains the following content:
 
 ```bash
-my_cherenkov_project/ 
-├── generate_events.py # Script for simulating Cherenkov images
-├── train_model.py # Script for training ResNet50-based classifier 
-├── evaluate_model.py # Script for evaluating trained model 
+CNN4SK/ 
+├── generate.py # Script for simulating Cherenkov images
+├── train.py # Script for training ResNet50-based classifier 
+├── evaluate.py # Script for evaluating trained model 
 ├── event_display_new/ # Default output folder for generated images 
 │ 	├── FCe/ # Fully Contained, electron-like events 
 │ 	│ ├── 000000_FCe.png # Synthetic event examples 
@@ -44,24 +38,21 @@ my_cherenkov_project/
 │ 	│ └── ... 
 │	├── FCmu/ # Fully Contained, muon-like events 
 │ 	├── PCe/ # Partially Contained, electron-like events 
-│ 	└── PCmu/ # Partially Contained, muon-like events ├── best_model.keras # Saved model weights (if training is successful) 
+│ 	└── PCmu/ # Partially Contained, muon-like events
 └── README.md # Current documentation file
 ```
 
-- **generate_events.py**  
+- **generate.py**  
   Produces synthetic Cherenkov event images and saves them to subfolders according to their class (FCe, FCmu, PCe, PCmu).
 
-- **train_model.py**  
+- **train.py**  
   Loads the generated dataset, sets up the ResNet50 model with custom layers, and trains the classifier.
 
-- **evaluate_model.py**  
+- **evaluate.py**  
   Loads the trained model for inference and produces performance metrics, including confusion matrices and ROC curves.
 
-- **event_display_new/**  
+- **event_display.zip**  
   A directory of generated event images, subdivided by topology (FC or PC) and particle type (e or mu).
-
-- **best_model.keras**  
-  The saved model weights (if the training script was configured to save them under this name).
 
 - **README.md**  
   The primary documentation file explaining the project’s objectives, setup, and usage instructions.
@@ -70,13 +61,12 @@ my_cherenkov_project/
 
 ### Premise :warning:
 
-Software and Computing for Nuclear and Subnuclear Physics (UniBO)
 This project has been inspired by the Super-Kamiokande (SK) neutrino observatory in Japan.
 However, the generator script (generate.py) does not perform a proper, full physical simulation of SK events. Instead, it will generate images with some features that resemble real SK event displays.
 
 The aim of this project is to give a very preliminary answer to the question:
 
->“*Could CNN architectures such as ResNet50 be used in SK-like neutrino observatories to classify e-like, μ-like, fully contained (FC) and partially contained (PC) events?*”
+>*Could CNN architectures such as ResNet50 be used in SK-like neutrino observatories to classify e-like, μ-like, fully contained (FC) and partially contained (PC) events?*
 
 Fully contained (FC) events occur when the charged particle from the neutrino interaction remains entirely within the detector. The Cherenkov light emitted by the charged particle forms a cone, and its projection on the detector walls creates a ring-like shape.
 In contrast, partially contained (PC) events happen when the charged particle exits the detector. In this case, the Cherenkov light produces a filled elliptical shape.
@@ -234,482 +224,7 @@ Model: "functional"
 │ conv2_block1_1_relu │ (None, 56, 56,    │          0 │ conv2_block1_1_b… │
 │ (Activation)        │ 64)               │            │                   │
 ├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_2_conv │ (None, 56, 56,    │     36,928 │ conv2_block1_1_r… │
-│ (Conv2D)            │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_2_bn   │ (None, 56, 56,    │        256 │ conv2_block1_2_c… │
-│ (BatchNormalizatio… │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_2_relu │ (None, 56, 56,    │          0 │ conv2_block1_2_b… │
-│ (Activation)        │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_0_conv │ (None, 56, 56,    │     16,640 │ pool1_pool[0][0]  │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_3_conv │ (None, 56, 56,    │     16,640 │ conv2_block1_2_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_0_bn   │ (None, 56, 56,    │      1,024 │ conv2_block1_0_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_3_bn   │ (None, 56, 56,    │      1,024 │ conv2_block1_3_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_add    │ (None, 56, 56,    │          0 │ conv2_block1_0_b… │
-│ (Add)               │ 256)              │            │ conv2_block1_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block1_out    │ (None, 56, 56,    │          0 │ conv2_block1_add… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_1_conv │ (None, 56, 56,    │     16,448 │ conv2_block1_out… │
-│ (Conv2D)            │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_1_bn   │ (None, 56, 56,    │        256 │ conv2_block2_1_c… │
-│ (BatchNormalizatio… │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_1_relu │ (None, 56, 56,    │          0 │ conv2_block2_1_b… │
-│ (Activation)        │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_2_conv │ (None, 56, 56,    │     36,928 │ conv2_block2_1_r… │
-│ (Conv2D)            │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_2_bn   │ (None, 56, 56,    │        256 │ conv2_block2_2_c… │
-│ (BatchNormalizatio… │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_2_relu │ (None, 56, 56,    │          0 │ conv2_block2_2_b… │
-│ (Activation)        │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_3_conv │ (None, 56, 56,    │     16,640 │ conv2_block2_2_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_3_bn   │ (None, 56, 56,    │      1,024 │ conv2_block2_3_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_add    │ (None, 56, 56,    │          0 │ conv2_block1_out… │
-│ (Add)               │ 256)              │            │ conv2_block2_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block2_out    │ (None, 56, 56,    │          0 │ conv2_block2_add… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_1_conv │ (None, 56, 56,    │     16,448 │ conv2_block2_out… │
-│ (Conv2D)            │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_1_bn   │ (None, 56, 56,    │        256 │ conv2_block3_1_c… │
-│ (BatchNormalizatio… │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_1_relu │ (None, 56, 56,    │          0 │ conv2_block3_1_b… │
-│ (Activation)        │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_2_conv │ (None, 56, 56,    │     36,928 │ conv2_block3_1_r… │
-│ (Conv2D)            │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_2_bn   │ (None, 56, 56,    │        256 │ conv2_block3_2_c… │
-│ (BatchNormalizatio… │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_2_relu │ (None, 56, 56,    │          0 │ conv2_block3_2_b… │
-│ (Activation)        │ 64)               │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_3_conv │ (None, 56, 56,    │     16,640 │ conv2_block3_2_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_3_bn   │ (None, 56, 56,    │      1,024 │ conv2_block3_3_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_add    │ (None, 56, 56,    │          0 │ conv2_block2_out… │
-│ (Add)               │ 256)              │            │ conv2_block3_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv2_block3_out    │ (None, 56, 56,    │          0 │ conv2_block3_add… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_1_conv │ (None, 28, 28,    │     32,896 │ conv2_block3_out… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_1_bn   │ (None, 28, 28,    │        512 │ conv3_block1_1_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_1_relu │ (None, 28, 28,    │          0 │ conv3_block1_1_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_2_conv │ (None, 28, 28,    │    147,584 │ conv3_block1_1_r… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_2_bn   │ (None, 28, 28,    │        512 │ conv3_block1_2_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_2_relu │ (None, 28, 28,    │          0 │ conv3_block1_2_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_0_conv │ (None, 28, 28,    │    131,584 │ conv2_block3_out… │
-│ (Conv2D)            │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_3_conv │ (None, 28, 28,    │     66,048 │ conv3_block1_2_r… │
-│ (Conv2D)            │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_0_bn   │ (None, 28, 28,    │      2,048 │ conv3_block1_0_c… │
-│ (BatchNormalizatio… │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_3_bn   │ (None, 28, 28,    │      2,048 │ conv3_block1_3_c… │
-│ (BatchNormalizatio… │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_add    │ (None, 28, 28,    │          0 │ conv3_block1_0_b… │
-│ (Add)               │ 512)              │            │ conv3_block1_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block1_out    │ (None, 28, 28,    │          0 │ conv3_block1_add… │
-│ (Activation)        │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_1_conv │ (None, 28, 28,    │     65,664 │ conv3_block1_out… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_1_bn   │ (None, 28, 28,    │        512 │ conv3_block2_1_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_1_relu │ (None, 28, 28,    │          0 │ conv3_block2_1_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_2_conv │ (None, 28, 28,    │    147,584 │ conv3_block2_1_r… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_2_bn   │ (None, 28, 28,    │        512 │ conv3_block2_2_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_2_relu │ (None, 28, 28,    │          0 │ conv3_block2_2_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_3_conv │ (None, 28, 28,    │     66,048 │ conv3_block2_2_r… │
-│ (Conv2D)            │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_3_bn   │ (None, 28, 28,    │      2,048 │ conv3_block2_3_c… │
-│ (BatchNormalizatio… │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_add    │ (None, 28, 28,    │          0 │ conv3_block1_out… │
-│ (Add)               │ 512)              │            │ conv3_block2_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block2_out    │ (None, 28, 28,    │          0 │ conv3_block2_add… │
-│ (Activation)        │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_1_conv │ (None, 28, 28,    │     65,664 │ conv3_block2_out… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_1_bn   │ (None, 28, 28,    │        512 │ conv3_block3_1_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_1_relu │ (None, 28, 28,    │          0 │ conv3_block3_1_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_2_conv │ (None, 28, 28,    │    147,584 │ conv3_block3_1_r… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_2_bn   │ (None, 28, 28,    │        512 │ conv3_block3_2_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_2_relu │ (None, 28, 28,    │          0 │ conv3_block3_2_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_3_conv │ (None, 28, 28,    │     66,048 │ conv3_block3_2_r… │
-│ (Conv2D)            │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_3_bn   │ (None, 28, 28,    │      2,048 │ conv3_block3_3_c… │
-│ (BatchNormalizatio… │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_add    │ (None, 28, 28,    │          0 │ conv3_block2_out… │
-│ (Add)               │ 512)              │            │ conv3_block3_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block3_out    │ (None, 28, 28,    │          0 │ conv3_block3_add… │
-│ (Activation)        │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_1_conv │ (None, 28, 28,    │     65,664 │ conv3_block3_out… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_1_bn   │ (None, 28, 28,    │        512 │ conv3_block4_1_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_1_relu │ (None, 28, 28,    │          0 │ conv3_block4_1_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_2_conv │ (None, 28, 28,    │    147,584 │ conv3_block4_1_r… │
-│ (Conv2D)            │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_2_bn   │ (None, 28, 28,    │        512 │ conv3_block4_2_c… │
-│ (BatchNormalizatio… │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_2_relu │ (None, 28, 28,    │          0 │ conv3_block4_2_b… │
-│ (Activation)        │ 128)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_3_conv │ (None, 28, 28,    │     66,048 │ conv3_block4_2_r… │
-│ (Conv2D)            │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_3_bn   │ (None, 28, 28,    │      2,048 │ conv3_block4_3_c… │
-│ (BatchNormalizatio… │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_add    │ (None, 28, 28,    │          0 │ conv3_block3_out… │
-│ (Add)               │ 512)              │            │ conv3_block4_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv3_block4_out    │ (None, 28, 28,    │          0 │ conv3_block4_add… │
-│ (Activation)        │ 512)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_1_conv │ (None, 14, 14,    │    131,328 │ conv3_block4_out… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_1_bn   │ (None, 14, 14,    │      1,024 │ conv4_block1_1_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_1_relu │ (None, 14, 14,    │          0 │ conv4_block1_1_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_2_conv │ (None, 14, 14,    │    590,080 │ conv4_block1_1_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_2_bn   │ (None, 14, 14,    │      1,024 │ conv4_block1_2_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_2_relu │ (None, 14, 14,    │          0 │ conv4_block1_2_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_0_conv │ (None, 14, 14,    │    525,312 │ conv3_block4_out… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_3_conv │ (None, 14, 14,    │    263,168 │ conv4_block1_2_r… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_0_bn   │ (None, 14, 14,    │      4,096 │ conv4_block1_0_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_3_bn   │ (None, 14, 14,    │      4,096 │ conv4_block1_3_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_add    │ (None, 14, 14,    │          0 │ conv4_block1_0_b… │
-│ (Add)               │ 1024)             │            │ conv4_block1_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block1_out    │ (None, 14, 14,    │          0 │ conv4_block1_add… │
-│ (Activation)        │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_1_conv │ (None, 14, 14,    │    262,400 │ conv4_block1_out… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_1_bn   │ (None, 14, 14,    │      1,024 │ conv4_block2_1_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_1_relu │ (None, 14, 14,    │          0 │ conv4_block2_1_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_2_conv │ (None, 14, 14,    │    590,080 │ conv4_block2_1_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_2_bn   │ (None, 14, 14,    │      1,024 │ conv4_block2_2_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_2_relu │ (None, 14, 14,    │          0 │ conv4_block2_2_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_3_conv │ (None, 14, 14,    │    263,168 │ conv4_block2_2_r… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_3_bn   │ (None, 14, 14,    │      4,096 │ conv4_block2_3_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_add    │ (None, 14, 14,    │          0 │ conv4_block1_out… │
-│ (Add)               │ 1024)             │            │ conv4_block2_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block2_out    │ (None, 14, 14,    │          0 │ conv4_block2_add… │
-│ (Activation)        │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_1_conv │ (None, 14, 14,    │    262,400 │ conv4_block2_out… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_1_bn   │ (None, 14, 14,    │      1,024 │ conv4_block3_1_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_1_relu │ (None, 14, 14,    │          0 │ conv4_block3_1_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_2_conv │ (None, 14, 14,    │    590,080 │ conv4_block3_1_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_2_bn   │ (None, 14, 14,    │      1,024 │ conv4_block3_2_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_2_relu │ (None, 14, 14,    │          0 │ conv4_block3_2_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_3_conv │ (None, 14, 14,    │    263,168 │ conv4_block3_2_r… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_3_bn   │ (None, 14, 14,    │      4,096 │ conv4_block3_3_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_add    │ (None, 14, 14,    │          0 │ conv4_block2_out… │
-│ (Add)               │ 1024)             │            │ conv4_block3_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block3_out    │ (None, 14, 14,    │          0 │ conv4_block3_add… │
-│ (Activation)        │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_1_conv │ (None, 14, 14,    │    262,400 │ conv4_block3_out… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_1_bn   │ (None, 14, 14,    │      1,024 │ conv4_block4_1_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_1_relu │ (None, 14, 14,    │          0 │ conv4_block4_1_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_2_conv │ (None, 14, 14,    │    590,080 │ conv4_block4_1_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_2_bn   │ (None, 14, 14,    │      1,024 │ conv4_block4_2_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_2_relu │ (None, 14, 14,    │          0 │ conv4_block4_2_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_3_conv │ (None, 14, 14,    │    263,168 │ conv4_block4_2_r… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_3_bn   │ (None, 14, 14,    │      4,096 │ conv4_block4_3_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_add    │ (None, 14, 14,    │          0 │ conv4_block3_out… │
-│ (Add)               │ 1024)             │            │ conv4_block4_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block4_out    │ (None, 14, 14,    │          0 │ conv4_block4_add… │
-│ (Activation)        │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_1_conv │ (None, 14, 14,    │    262,400 │ conv4_block4_out… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_1_bn   │ (None, 14, 14,    │      1,024 │ conv4_block5_1_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_1_relu │ (None, 14, 14,    │          0 │ conv4_block5_1_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_2_conv │ (None, 14, 14,    │    590,080 │ conv4_block5_1_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_2_bn   │ (None, 14, 14,    │      1,024 │ conv4_block5_2_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_2_relu │ (None, 14, 14,    │          0 │ conv4_block5_2_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_3_conv │ (None, 14, 14,    │    263,168 │ conv4_block5_2_r… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_3_bn   │ (None, 14, 14,    │      4,096 │ conv4_block5_3_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_add    │ (None, 14, 14,    │          0 │ conv4_block4_out… │
-│ (Add)               │ 1024)             │            │ conv4_block5_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block5_out    │ (None, 14, 14,    │          0 │ conv4_block5_add… │
-│ (Activation)        │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_1_conv │ (None, 14, 14,    │    262,400 │ conv4_block5_out… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_1_bn   │ (None, 14, 14,    │      1,024 │ conv4_block6_1_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_1_relu │ (None, 14, 14,    │          0 │ conv4_block6_1_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_2_conv │ (None, 14, 14,    │    590,080 │ conv4_block6_1_r… │
-│ (Conv2D)            │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_2_bn   │ (None, 14, 14,    │      1,024 │ conv4_block6_2_c… │
-│ (BatchNormalizatio… │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_2_relu │ (None, 14, 14,    │          0 │ conv4_block6_2_b… │
-│ (Activation)        │ 256)              │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_3_conv │ (None, 14, 14,    │    263,168 │ conv4_block6_2_r… │
-│ (Conv2D)            │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_3_bn   │ (None, 14, 14,    │      4,096 │ conv4_block6_3_c… │
-│ (BatchNormalizatio… │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_add    │ (None, 14, 14,    │          0 │ conv4_block5_out… │
-│ (Add)               │ 1024)             │            │ conv4_block6_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv4_block6_out    │ (None, 14, 14,    │          0 │ conv4_block6_add… │
-│ (Activation)        │ 1024)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_1_conv │ (None, 7, 7, 512) │    524,800 │ conv4_block6_out… │
-│ (Conv2D)            │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_1_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block1_1_c… │
-│ (BatchNormalizatio… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_1_relu │ (None, 7, 7, 512) │          0 │ conv5_block1_1_b… │
-│ (Activation)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_2_conv │ (None, 7, 7, 512) │  2,359,808 │ conv5_block1_1_r… │
-│ (Conv2D)            │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_2_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block1_2_c… │
-│ (BatchNormalizatio… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_2_relu │ (None, 7, 7, 512) │          0 │ conv5_block1_2_b… │
-│ (Activation)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_0_conv │ (None, 7, 7,      │  2,099,200 │ conv4_block6_out… │
-│ (Conv2D)            │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_3_conv │ (None, 7, 7,      │  1,050,624 │ conv5_block1_2_r… │
-│ (Conv2D)            │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_0_bn   │ (None, 7, 7,      │      8,192 │ conv5_block1_0_c… │
-│ (BatchNormalizatio… │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_3_bn   │ (None, 7, 7,      │      8,192 │ conv5_block1_3_c… │
-│ (BatchNormalizatio… │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_add    │ (None, 7, 7,      │          0 │ conv5_block1_0_b… │
-│ (Add)               │ 2048)             │            │ conv5_block1_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block1_out    │ (None, 7, 7,      │          0 │ conv5_block1_add… │
-│ (Activation)        │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_1_conv │ (None, 7, 7, 512) │  1,049,088 │ conv5_block1_out… │
-│ (Conv2D)            │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_1_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block2_1_c… │
-│ (BatchNormalizatio… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_1_relu │ (None, 7, 7, 512) │          0 │ conv5_block2_1_b… │
-│ (Activation)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_2_conv │ (None, 7, 7, 512) │  2,359,808 │ conv5_block2_1_r… │
-│ (Conv2D)            │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_2_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block2_2_c… │
-│ (BatchNormalizatio… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_2_relu │ (None, 7, 7, 512) │          0 │ conv5_block2_2_b… │
-│ (Activation)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_3_conv │ (None, 7, 7,      │  1,050,624 │ conv5_block2_2_r… │
-│ (Conv2D)            │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_3_bn   │ (None, 7, 7,      │      8,192 │ conv5_block2_3_c… │
-│ (BatchNormalizatio… │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_add    │ (None, 7, 7,      │          0 │ conv5_block1_out… │
-│ (Add)               │ 2048)             │            │ conv5_block2_3_b… │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block2_out    │ (None, 7, 7,      │          0 │ conv5_block2_add… │
-│ (Activation)        │ 2048)             │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block3_1_conv │ (None, 7, 7, 512) │  1,049,088 │ conv5_block2_out… │
-│ (Conv2D)            │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block3_1_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block3_1_c… │
-│ (BatchNormalizatio… │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block3_1_relu │ (None, 7, 7, 512) │          0 │ conv5_block3_1_b… │
-│ (Activation)        │                   │            │                   │
-├─────────────────────┼───────────────────┼────────────┼───────────────────┤
-│ conv5_block3_2_conv │ (None, 7, 7, 512) │  2,359,808 │ conv5_block3_1_r… │
-│ (Conv2D)            │                   │            │                   │
+| [...]               │ [...]             | [...]      | [...]             |
 ├─────────────────────┼───────────────────┼────────────┼───────────────────┤
 │ conv5_block3_2_bn   │ (None, 7, 7, 512) │      2,048 │ conv5_block3_2_c… │
 │ (BatchNormalizatio… │                   │            │                   │
