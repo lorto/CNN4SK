@@ -375,24 +375,24 @@ Epoch 25/25
 
 ### Evaluate the Model
 
-If the training has not been performed the fine-tuned model `best_model.keras` can be downloaded from the following (shortened) Google Drive public link: 
+If the training has not been performed, the fine-tuned model `best_model.keras` can be downloaded from the following (shortened) Google Drive public link: 
 
 <https://tinyurl.com/2wju8t33>
 
-1. Create an evaluation dataset: in `generator.py` replace `output_dir = "event_display"` with `output_dir = "event_display_evaluate"`, save and run `generator.py` then move the content of the generated subfolders directly into `event_display_evaluate/`. Alternatively, download and decompress `event_display_evaluate.zip`. The name and scheme of the evaluation directory must be such as:
+1. Create an evaluation dataset: in `generate.py` replace `output_dir = "event_display"` with `output_dir = "event_display_evaluate"`, save and run `generate.py` then move the content of the generated subfolders directly into `event_display_evaluate/`. Alternatively, download and decompress `event_display_evaluate.zip`. The name and scheme of the evaluation directory must be such as:
 
 ```text
 event_display_evaluate/ 
-   ├── 000000_FCe.png
-   ├── 000001_FCe.png
-   ├── 000002_FCe.png
+   ├── 000000_FCmu.png
+   ├── 000001_PCmu.png
+   ├── 000002_PCe.png
    ├── 000003_FCe.png
-   ├── 000004_FCe.png
-   ├── 000005_FCe.png
-   ├── 000006_FCe.png
-   ├── 000007_FCe.png
-   ├── 000008_FCe.png
-   ├── 000009_FCe.png    
+   ├── 000004_PCe.png
+   ├── 000005_PCmu.png
+   ├── 000006_PCe.png
+   ├── 000007_PCmu.png
+   ├── 000008_PCmu.png
+   ├── 000009_FCmu.png    
    └── ...
 ```
 
@@ -402,7 +402,7 @@ event_display_evaluate/
 python3 evaluate.py
 ```
 
-3. The script outputs confusion matrices, classification reports, and plots ROC curves ().  
+3. The script outputs confusion matrices, classification reports and plots ROC curves (for pairs of two classes, keeping particle ID or topology fixed).  
 4. Check the console output and any generated figures to interpret the classifier’s performance (see shortened example below).
 
 ```text
