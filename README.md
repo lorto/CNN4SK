@@ -164,6 +164,14 @@ mu_noise = 1 # Standard deviation of gaussian noise in mu-like events
 def noise_func(sigma_noise, step):
     return sigma_noise * (0.5 + 0.5 * step / num_steps)
 ```
+If needed, birth and death distance generation limits can be adjusted.
+
+```python
+# Generate random distances where the Cherenkov emission starts and ends
+birth_distance_to_plane = np.random.uniform(20, 50) # The cone shouldn't be neither too big nor too small
+# If the event is FC the internal radius is set to minimum 33% of the outer
+death_distance_to_plane = 0 if type == 'PC' else np.random.uniform(0.33 * birth_distance_to_plane, birth_distance_to_plane)
+```
 
 2. Run the script in a terminal:
 ```bash
