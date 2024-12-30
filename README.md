@@ -116,14 +116,17 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 
 **Role**: Model Training
 
-1. **Data Loading** Reads images from the `event_display/` directory using a Keras ImageDataGenerator for data augmentation.  
+1. **Data Loading** 
+   - Reads images from the `event_display/` directory using a Keras ImageDataGenerator for data augmentation.
+   - Counts the images in each subfolder and shows a sample for each one.
+   - Sets 30% validation split.  
 2. **Model Construction**  
    - Loads a ResNet50 (pre-trained on ImageNet).  
    - Freezes the base layers.  
-   - Adds a GlobalAveragePooling2D layer plus dense layers for final classification into four classes (FCe, FCmu, PCe, PCmu) or two classes depending on the classification approach.  
+   - Adds a GlobalAveragePooling2D layer plus dense layers and a dropout for final classification into four classes (`FCe`, `FCmu`, `PCe`, `PCmu`).  
 3. **Training Loop**  
-   - Optimizes the network via Adam or another suitable optimizer.  
-   - Tracks validation performance; saves the best model weights to best_model.keras (if configured).  
+   - Optimizes the network via Adam.  
+   - Tracks validation performance, saves the best model weights to `best_model.keras`.  
 
 ### Evaluation script `evaluate.py`
 
