@@ -1,4 +1,4 @@
-# CNN4SK: A Deep Learning Approach for Cherenkov Event Classification
+# CNN4SK: A Machine Learning Approach for Cherenkov Event Classification
 
 ![](pictures/sk.jpg)
 
