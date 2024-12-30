@@ -139,9 +139,32 @@ This difference in the Cherenkov patterns is critical for distinguishing between
 
 ## Usage Instructions
 
+The first or first two steps can be skipped for a quick demonstration of the project: all the necessary files will be provided regardless, including the `best_model.keras` file.
+
 ### Generate the Dataset
 
-1. Modify parameters in **generate_events.py** if needed (e.g., number of images, image size, noise levels).  
+1. *(Optional)* If needed, modify parameters in `generate_events.py` (e.g., number of images, image size, noise levels). The function responsible for noise scaling can also be customized.
+
+```python
+# General settings
+num_images = 1000 # Number of images for each execution
+num_steps = 100 # Number of steps during the motion of charged particles
+ellipse_points = 360 # Number of points for each ellipse
+color = 255 # White color
+output_dir = "event_display" # Directory to save images
+
+# Physical and geometric parameters
+theta_cherenkov = 41 * np.pi / 180 # Cherenkov angle in radians (41 degrees)
+image_size = (105, 105) # Image size (the number of photomultipliers in Super-Kamiokande is about 11k)
+center = (image_size[0] // 2, image_size[1] // 2) # Image center
+e_noise = 5 # Standard deviation of gaussian noise in e-like events
+mu_noise = 1 # Standard deviation of gaussian noise in mu-like events
+
+# Function to emulate noise scaling
+def noise_func(sigma_noise, step):
+    return sigma_noise * (0.5 + 0.5 * step / num_steps)
+```
+
 2. Run the script in a terminal:
 ```bash
 python generate_events.py
@@ -386,7 +409,7 @@ lorenzo@MacBook Pro sc_GitHub %
 ## Conclusions
 
 1. Classification metrics, confusion matrices and ROC curves indicate a very good performance of the fine-tuned model for this task.
-2. Some degree of confusion is visible between `FCe` and `PCe`events.
+2. Some degree of confusion is visible between `FCe` and `PCe` events.
 3. The ROC curve for this specific pair of events also reflects such behavior.
 4. The reason for this might reside in the dataset generator: fully contained electron events with small internal radii might be entirely filled up by the noise.
 5. If this is the case, increasing the training dataset or unfreezing some layers of ResNet50 might prove ineffective for increasing performance.
