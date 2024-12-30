@@ -1,6 +1,6 @@
 # CNN4SK: A Deep Learning Approach for Cherenkov Event Classification
 
-![](sk.jpg)
+![](pictures/sk.jpg)
 
 ### Table of Contents
 
@@ -159,7 +159,7 @@ Image counts per class:
    PCmu: 233 images
 ```
 
-![](train1.png)
+![](pictures/train1.png)
 
 
 ```bash
@@ -814,12 +814,12 @@ Confusion Matrix, without normalization
 Normalized Confusion Matrix
 lorenzo@MacBook Pro sc_GitHub % 
 ```
-![](evaluate1.png)
-![](evaluate2.png)
-![](evaluate3.png)
-![](evaluate4.png)
-![](evaluate5.png)
-![](evaluate6.png)
+![](pictures/evaluate1.png)
+![](pictures/evaluate2.png)
+![](pictures/evaluate3.png)
+![](pictures/evaluate4.png)
+![](pictures/evaluate5.png)
+![](pictures/evaluate6.png)
 
 ## Key Libraries and Requirements
 
