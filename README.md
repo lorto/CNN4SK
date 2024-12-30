@@ -223,17 +223,18 @@ event_display/
 
 ### Train the Model
 
-1. Ensure **train_model.py** points to the directory containing the generated images (default: `event_display_new`).  
-2. Run the script:
+If the previous step has been skipped, download and decompress `event_display.zip`.
+
+1. Run the script:
 
 ```bash
-python train_model.py
+python3 train.py
 ```
 
 3. A ResNet50-based classifier will be trained.  
-4. A model file (default: `best_model.keras`) will be saved according to the training script’s configuration and callbacks.
+4. A model file `best_model.keras` will be saved.
 
-During execution the script will produce a text and graphical output such as the following:
+During execution the script will produce a textual and graphical output such as the following (shortened):
 
 ```text
 2024-12-29 18:31:15.348303: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
