@@ -14,8 +14,7 @@
 
 ## Introduction
 
-Software and Computing for Nuclear and Subnuclear Physics (UniBO)
-This repository contains an end-to-end workflow for simulating Cherenkov events in a water-based detector (inspired by Super-Kamiokande) and classifying these events using a Deep Learning model (ResNet50).
+This work is the exam project for the Software and Computing for Nuclear and Subnuclear Physics course at the University of Bologna (UniBO). This repository contains a workflow for emulating Cherenkov events in a water-based detector and classifying these events using a Machine Learning model (ResNet50).
 
 This project:
 
@@ -29,19 +28,13 @@ This repository contains the following content:
 
 ```bash
 CNN4SK/ 
-├── generate.py # Script for simulating Cherenkov images
-├── train.py # Script for training ResNet50-based classifier 
-├── evaluate.py # Script for evaluating trained model 
-├── event_display_new/ # Default output folder for generated images 
-│ 	├── FCe/ # Fully Contained, electron-like events 
-│ 	│ ├── 000000_FCe.png # Synthetic event examples 
-│	│ ├── 000001_FCe.png 
-│ 	│ └── ... 
-│	├── FCmu/ # Fully Contained, muon-like events 
-│ 	├── PCe/ # Partially Contained, electron-like events 
-│ 	└── PCmu/ # Partially Contained, muon-like events
-├── README.md # Current documentation file
-└── pictures/
+	├── generate.py
+	├── train.py
+	├── evaluate.py
+	├── event_display.zip
+	├── event_display_evaluate.zip
+	├── README.md
+	└── pictures/
 ```
 
 - **generate.py**  
@@ -55,9 +48,15 @@ CNN4SK/
 
 - **event_display.zip**  
   A directory of generated event images, subdivided by topology (FC or PC) and particle type (e or mu).
+  
+- **event\_display\_evaluate.zip**  
+  A directory of generated event images, subdivided by topology (FC or PC) and particle type (e or mu).
 
 - **README.md**  
   The primary documentation file explaining the project’s objectives, setup, and usage instructions.
+  
+- **pictures/**  
+  Pictures contained in the present document.
   
 ## Physics overview
 
@@ -70,14 +69,20 @@ The aim of this project is to give a very preliminary answer to the question:
 
 >*Could CNN architectures such as ResNet50 be used in SK-like neutrino observatories to classify e-like, μ-like, fully contained (FC) and partially contained (PC) events?*
 
-Fully contained (FC) events occur when the charged particle from the neutrino interaction remains entirely within the detector. The Cherenkov light emitted by the charged particle forms a cone, and its projection on the detector walls creates a ring-like shape.
-In contrast, partially contained (PC) events happen when the charged particle exits the detector. In this case, the Cherenkov light produces a filled elliptical shape.
+### FC vs PC events
+
+- **Fully contained (FC)** events occur when the charged particle from the neutrino interaction remains entirely within the detector. The Cherenkov light emitted by the charged particle forms a cone, and its projection on the detector walls creates a ring-like shape.
+- In contrast, **partially contained (PC)** events happen when the charged particle exits the detector. In this case, the Cherenkov light produces a filled elliptical shape.
 
 ![](pictures/info1.png)
 
+### e and μ events
+
 In Super-Kamiokande, e-like and μ-like events differ due to the distinct behaviors of electrons and muons when they travel in a medium and emit Cherenkov light.
-e-like events Electrons interact strongly with the water via multiple scattering and electromagnetic showering. The result is a diffuse, fuzzy ring or filled pattern.
-μ-like events Muons, being heavier, travel in nearly straight lines and do not shower as electrons do. Their Cherenkov light is emitted along a single well-defined path, producing a sharp, clean ring or filled pattern.
+
+- **Electrons** interact strongly with the water via multiple scattering and electromagnetic showering. The result is a diffuse, fuzzy ring or filled pattern.
+- **Muons**, being heavier, travel in nearly straight lines and do not shower as electrons do. Their Cherenkov light is emitted along a single well-defined path, producing a sharp, clean ring or filled pattern.
+
 This difference in the Cherenkov patterns is critical for distinguishing between interactions caused by electron neutrinos (e-like) and muon neutrinos (μ-like).
 
 ![](pictures/info2.png)
@@ -102,11 +107,11 @@ Link best_model.keras:
 **Role**: Synthetic Data Generation
 
 1. **Parameter Generation** The script randomly selects: - Particle ID: electron or muon (“e” or “mu”);    - Topology: Fully Contained (FC) or Partially Contained (PC); - Angles: φ (azimuthal angle) within [0, 2π] and θ (polar angle) within [0, π/2]; - Distances: birth distance (from the plane where Cherenkov light is being recorded) and death distance for the FC scenario (set to zero for the PC scenario).
-2. **Cone-Plane Intersection** Cherenkov radiation forms a cone. Its intersection with a plane is represented by an ellipse. The script computes: - Outer ellipse parameters based on the larger (birth) distance; - Inner ellipse parameters based on the smaller (death) distance. The ellipse transitions from a larger size to a smaller size as the particle moves through the detector.
-3. **Incremental Ellipse** Drawing A sequence of ellipses is generated at discrete intervals (num_steps) between the outer and inner distances. Each ellipse is scaled and oriented according to: - The Cherenkov angle (fixed at ~ 41°); - The particle’s polar angle θ and azimuthal angle φ. The script calculates the major and minor semi-axes at each step and renders an ellipse on a 2D grid.
-4. **Noise and Multiple Coulomb Scattering** A noise model is introduced to replicate the diffuse edges observed in real Cherenkov rings: - Electrons typically exhibit larger scattering; - Muons exhibit less scattering. A Gaussian random displacement (larger for e-like events) is applied to each point of the ellipse. Noise growth over the trajectory is implemented to mimic increased scattering towards the end of the path.
-5. **Field-of-View Checks** If the generated ellipse lies outside the detector’s 2D window, the event is discarded. In practical terms, this step ensures that the script only retains images where the Cherenkov pattern lies inside the detector plane before the application of noise.
-6. **Output and Labeling** Valid events are saved as 2D black and white images. The file naming encodes: topology (e.g., “FC” or “PC”), particle type (e.g., “e” or “mu”) and a sequential event index. Images are saved in subfolders named “FCe”, “FCmu”, “PCe” and “PCmu”, reflecting both the topology and the particle ID.
+2. **Cone-Plane Intersection** Cherenkov radiation forms a cone. Its intersection with a plane is represented by an ellipse. The script computes: - Outer ellipse parameters based on the larger (birth) distance; - Inner ellipse parameters based on the smaller (death) distance.
+3. **Incremental Ellipse** Drawing A sequence of ellipses is generated at discrete intervals (num_steps) between the outer and inner distances. Each ellipse is scaled and oriented according to the Cherenkov angle, θ and φ. The script calculates the major and minor semi-axes at each step and renders an ellipse on a 2D grid.
+4. **Noise and Multiple Coulomb Scattering** A Gaussian random displacement (larger for e-like events) is applied to each point of the ellipse. Noise growth over the trajectory is implemented to mimic increased scattering towards the end of the path.
+5. **Field-of-View Checks** If the generated ellipse lies outside the detector’s 2D window, the event is discarded.
+6. **Output and Labeling** Valid events are saved as 2D black and white images. The file naming and folder scheme encodes the topology (e.g., “FC” or “PC”) and particle type (e.g., “e” or “mu”).
 
 ### Training script `train.py`
 
